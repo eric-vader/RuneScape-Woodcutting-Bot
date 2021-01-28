@@ -33,7 +33,7 @@ def locate_trees(image):
     thresh = cv2.adaptiveThreshold(closed, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
 
     # Use RETR_TREE to get contours' parent-child relationships within hierarchy
-    img, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     # Loop through the outermost contour of all objects in frame and outline contours that most
     # resemble trees, that is, contours that are circular and of certain size.
@@ -109,26 +109,26 @@ if __name__ == "__main__":
     while True:
 
         # Grab game screen image
-        game_image = np.array(ImageGrab.grab((0, 40, 512, 370)))
+        game_image = np.array(ImageGrab.grab((0, 40, 550, 375)))
 
         # Find trees on game screen
         processed_game_screen = locate_trees(game_image)
         cv2.imshow('RsBot', cv2.cvtColor(processed_game_screen, cv2.COLOR_BGR2RGB))
 
         # Grab inventory image
-        inv_img = np.array(ImageGrab.grab((550, 240, 740, 500)))
+        inv_img = np.array(ImageGrab.grab((570, 200, 760, 460)))
         # Initialize inventory I
         the_inventory = Inventory(inv_img)
         # Update contents of inventory based on current status of inventory
         the_inventory.update()
-
+        
         # Cut trees if there is space in the inventory otherwise drop contents of inventory
         if not the_inventory.is_full():
             cut_trees(processed_game_screen)
-
+        '''
         elif the_inventory.is_full():
             the_inventory.drop_all_logs()
-
+        '''
         print(the_inventory.num_logs)
 
         if cv2.waitKey(25) & 0xFF == ord('q'):

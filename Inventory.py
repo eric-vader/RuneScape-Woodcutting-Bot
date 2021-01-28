@@ -13,9 +13,7 @@ class Inventory:
         self.image = image
 
         # List of all logs currently in inventory
-        self.logs = [log
-                     for log in pyautogui.locateAllOnScreen('log1.png', confidence=0.9)
-                     if 550 <= log[0] <= 740]
+        self.logs = [log for log in pyautogui.locateAllOnScreen('assets/logs.png', confidence=0.9) ]
         self.num_logs = len(self.logs)
 
         # Max capacity of inventory
